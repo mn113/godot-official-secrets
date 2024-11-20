@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://s0t62g61res8"]
+
+[ext_resource type="Script" path="res://players/npc/npc.gd" id="1_dbcyt"]
+[ext_resource type="Texture2D" uid="uid://dc6r6b4oy8lse" path="res://assets/spcm/sprite20.png" id="2_b1d3c"]
+[ext_resource type="Texture2D" uid="uid://c8q4r8qhm22u" path="res://assets/kenney_prototypetextures/PNG/Dark/texture_02.png" id="3_p0t75"]
+
+[sub_resource type="SystemFont" id="SystemFont_yo67u"]
+subpixel_positioning = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_w4sb8"]
+orientation = 0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_m5hx7"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lpud4"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cux3y"]
+radius = 1.5
+
+[node name="NPC" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_dbcyt")
+
+[node name="NameLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26895, 0)
+billboard = 2
+text = "name"
+font = SubResource("SystemFont_yo67u")
+font_size = 64
+
+[node name="Sprites" type="Node3D" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="Sprites"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15951, 0)
+billboard = 2
+texture = ExtResource("2_b1d3c")
+
+[node name="ShadowsOnly_Sprite3D" type="Sprite3D" parent="Sprites/Sprite3D"]
+transform = Transform3D(0.101907, 0, 0, 0, 0.371951, 0, 0, 0, 1, 0, -0.182149, 0)
+cast_shadow = 3
+pixel_size = 0.005
+billboard = 2
+transparent = false
+texture = ExtResource("3_p0t75")
+
+[node name="Shadow_MeshInstance3D" type="MeshInstance3D" parent="Sprites"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.978548, 0)
+visible = false
+mesh = SubResource("PlaneMesh_w4sb8")
+
+[node name="Inner_CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_m5hx7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Inner_CollisionShape3D"]
+visible = false
+mesh = SubResource("CylinderMesh_lpud4")
+
+[node name="Interact_Area3D" type="Area3D" parent="."]
+physics_interpolation_mode = 2
+
+[node name="Outer_CollisionShape3D" type="CollisionShape3D" parent="Interact_Area3D"]
+physics_interpolation_mode = 2
+shape = SubResource("CylinderShape3D_cux3y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Interact_Area3D/Outer_CollisionShape3D"]
+skeleton = NodePath("../../..")
+
+[connection signal="body_entered" from="Interact_Area3D" to="." method="_on_body_entered"]
+[connection signal="body_exited" from="Interact_Area3D" to="." method="_on_body_exited"]

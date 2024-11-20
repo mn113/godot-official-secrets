@@ -1,0 +1,143 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtax8cahavgoe"]
+
+[ext_resource type="Script" path="res://ui/sharing_modal.gd" id="1_cwttg"]
+[ext_resource type="Theme" uid="uid://ctrmdggw11vqh" path="res://responsive_theme.tres" id="2_ws378"]
+
+[node name="SharingModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_ws378")
+theme_type_variation = &"default"
+script = ExtResource("1_cwttg")
+
+[node name="Box" type="ColorRect" parent="."]
+process_mode = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.174626, 0.174626, 0.174626, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Box"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heading_Label" type="Label" parent="Box/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Share secret with ___?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Box/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NPC_PanelContainer" type="PanelContainer" parent="Box/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Box/VBoxContainer/HBoxContainer/NPC_PanelContainer"]
+layout_mode = 2
+
+[node name="Greeting_Label" type="Label" parent="Box/VBoxContainer/HBoxContainer/NPC_PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Greetings."
+
+[node name="Portrait" type="Control" parent="Box/VBoxContainer/HBoxContainer/NPC_PanelContainer/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 170)
+layout_mode = 2
+
+[node name="NPC_TextureRect" type="TextureRect" parent="Box/VBoxContainer/HBoxContainer/NPC_PanelContainer/VBoxContainer/Portrait"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -131.0
+offset_top = -84.0
+offset_right = 135.0
+offset_bottom = 384.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+stretch_mode = 4
+
+[node name="GreetingSubLabel" type="Label" parent="Box/VBoxContainer/HBoxContainer/NPC_PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "I will show you mine, if you show me yours..."
+
+[node name="NPCSecrets_ItemList" type="ItemList" parent="Box/VBoxContainer/HBoxContainer/NPC_PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+allow_search = false
+item_count = 2
+same_column_width = true
+item_0/text = "Test test tes stes testes testes"
+item_1/text = "Opt topt o otpo otpop top opt"
+
+[node name="Player_PanelContainer" type="PanelContainer" parent="Box/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Your secrets"
+
+[node name="PlayerSecrets_ItemList" type="ItemList" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+allow_reselect = true
+allow_search = false
+item_count = 3
+same_column_width = true
+item_0/text = "Test test tes stes testes testes"
+item_1/text = "Opt topt o otpo otpop top opt"
+item_2/text = "Yada yada yada"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Cancel_Button" type="Button" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="Share_Button" type="Button" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Share secret"
+
+[node name="Exfiltrate_Button" type="Button" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Exfiltrate secret"
+
+[connection signal="pressed" from="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2/HBoxContainer/Cancel_Button" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2/HBoxContainer/Share_Button" to="." method="_on_share_button_pressed"]
+[connection signal="pressed" from="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2/HBoxContainer/Exfiltrate_Button" to="." method="_on_exfiltrate_button_pressed"]

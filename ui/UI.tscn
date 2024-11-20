@@ -1,0 +1,184 @@
+[gd_scene load_steps=5 format=3 uid="uid://j57b48e4usaf"]
+
+[ext_resource type="Theme" uid="uid://ctrmdggw11vqh" path="res://responsive_theme.tres" id="1_gqgj8"]
+[ext_resource type="Script" path="res://ui/ui.gd" id="1_l2sc6"]
+[ext_resource type="PackedScene" uid="uid://dtax8cahavgoe" path="res://ui/SharingModal.tscn" id="2_2i5as"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ddrim"]
+bg_color = Color(0.3071, 0.83, 0.3071, 1)
+
+[node name="UIScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gqgj8")
+script = ExtResource("1_l2sc6")
+
+[node name="SuspicionHUD" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45
+anchor_right = 0.55
+anchor_bottom = 0.02
+offset_left = -200.0
+offset_right = 200.0
+offset_bottom = 24.0
+grow_horizontal = 2
+color = Color(0.174626, 0.174626, 0.174626, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SuspicionHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="SuspicionHUD/HBoxContainer"]
+layout_mode = 2
+text = "Suspicion"
+
+[node name="VSeparator" type="VSeparator" parent="SuspicionHUD/HBoxContainer"]
+layout_mode = 2
+
+[node name="Suspicion_ProgressBar" type="ProgressBar" parent="SuspicionHUD/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/fill = SubResource("StyleBoxFlat_ddrim")
+step = 1.0
+value = 50.0
+rounded = true
+show_percentage = false
+
+[node name="SecretsHUD" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.47
+anchor_right = 0.03
+anchor_bottom = 0.53
+offset_top = -121.0
+offset_right = 168.0
+offset_bottom = 121.0
+grow_vertical = 2
+color = Color(0.174626, 0.174626, 0.174626, 1)
+
+[node name="HBoxContainer" type="VBoxContainer" parent="SecretsHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="SecretsHUD/HBoxContainer"]
+layout_mode = 2
+text = "Secrets"
+
+[node name="HSeparator" type="HSeparator" parent="SecretsHUD/HBoxContainer"]
+layout_mode = 2
+
+[node name="Secrets_RichText" type="RichTextLabel" parent="SecretsHUD/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 28
+bbcode_enabled = true
+text = "o"
+
+[node name="GoalsHUD" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.97
+anchor_top = 0.35
+anchor_right = 1.0
+anchor_bottom = 0.65
+offset_left = -179.0
+offset_top = -116.0
+offset_bottom = 116.0
+grow_horizontal = 0
+grow_vertical = 2
+pivot_offset = Vector2(179, 116)
+color = Color(0.174626, 0.174626, 0.174626, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GoalsHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="GoalsHUD/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Goals"
+
+[node name="HSeparator" type="HSeparator" parent="GoalsHUD/VBoxContainer"]
+layout_mode = 2
+
+[node name="Goals_RichText" type="RichTextLabel" parent="GoalsHUD/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "1. Exit the room by lowering suspicion.
+
+2. Exfiltrate the [color=yellow]L3 secret[/color] from the room with a trusted ally.
+
+3. Avoid sharing sensitive secrets to hostiles!"
+shortcut_keys_enabled = false
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 1
+anchor_left = 0.25
+anchor_top = 0.9
+anchor_right = 0.75
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="MessagesHUD" type="ColorRect" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.174626, 0.174626, 0.174626, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MessagesHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/MessagesHUD/VBoxContainer"]
+layout_mode = 2
+text = "Messages
+"
+
+[node name="HSeparator" type="HSeparator" parent="Control/MessagesHUD/VBoxContainer"]
+layout_mode = 2
+
+[node name="Messages_RichText" type="RichTextLabel" parent="Control/MessagesHUD/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "- [color=black]first[/color]"
+scroll_following = true
+
+[node name="SharingModal" parent="." instance=ExtResource("2_2i5as")]
+layout_mode = 1
