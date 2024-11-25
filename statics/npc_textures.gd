@@ -2,7 +2,7 @@
 
 extends Node
 
-const TEXTURES_BASE = "res://assets/spcm/"
+const TEXTURES_BASE = "res://assets/sprites/spcm/"
 const ALL_TEXTURES = [
 	{ "file": "sprite10.png", "gender": "f" },
 	{ "file": "sprite19.png", "gender": "f" },

@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://cj4f570mhur6l"]
+
+[ext_resource type="Script" path="res://audio.gd" id="1_t6ii2"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_3aaa0"]
+
+[sub_resource type="AudioStream" id="AudioStream_4n2mc"]
+
+[node name="Audio" type="Node"]
+script = ExtResource("1_t6ii2")
+
+[node name="Music_AudioStreamPlayer1" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+stream = SubResource("AudioStreamInteractive_3aaa0")
+
+[node name="Music_AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+stream = SubResource("AudioStreamInteractive_3aaa0")
+
+[node name="Crossfade_Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Sfx_AudioStreamPlayer1" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStream_4n2mc")
+max_polyphony = 4
+
+[node name="Sfx_AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStream_4n2mc")
+
+[node name="Sfx_AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStream_4n2mc")
+
+[node name="Sfx_AudioStreamPlayer4" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStream_4n2mc")

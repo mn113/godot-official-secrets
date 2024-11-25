@@ -19,6 +19,13 @@ func _ready():
 	get_tree().get_root().size_changed.connect(_on_size_changed)
 
 
+func _input(event):
+	if event is InputEventKey:
+		if event.is_action_pressed("ui_cancel"):
+			if visible:
+				_on_cancel_button_pressed()
+
+
 func _on_size_changed():
 	# make UI font sizes scale with window
 	var percent = get_window().size.y / 100.0
@@ -37,6 +44,8 @@ func open_secrets(player, npc, data, mode = "npc"):
 	local_player_ref = player
 	local_npc_ref = npc
 	show()
+	PubSub.game_state.emit(2) # STATE_INTERACT
+
 	var can_share = true
 	if mode == "npc":
 		can_share = open_npc_card(data)
@@ -56,14 +65,16 @@ func close_secrets():
 	close_player_card()
 	PubSub.close_secrets.emit()
 	hide()
+	PubSub.game_state.emit(1) # STATE_PLAYING
 
 
 func open_npc_card(data = {}) -> bool:
 	%NPC_PanelContainer.show()
+
 	_update_area_property("sharing_npc_portrait", "texture", load(local_npc_ref.texture_path))
 	areas.sharing_npc_secrets_list.clear()
 
-	var can_share = true;
+	var can_share = true
 	var npc_secrets = local_npc_ref.get_shareable_secrets(local_player_ref.held_secrets)
 	var player_secrets = local_player_ref.get_shareable_secrets(local_npc_ref.held_secrets)
 
@@ -99,6 +110,8 @@ func close_npc_card():
 func open_player_card(can_share = true, mode = "npc"):
 	areas.sharing_player_secrets_list.clear()
 	var list_secrets = local_player_ref.held_secrets
+	if mode == "exfil":
+		list_secrets = list_secrets.filter(func (secret): return secret.grade > 1)
 	list_secrets.sort_custom(Secrets.sort_by_grade)
 
 	for secret in list_secrets:
@@ -112,6 +125,13 @@ func open_player_card(can_share = true, mode = "npc"):
 		%Share_Button.hide()
 		%Exfiltrate_Button.show()
 
+	if len(list_secrets):
+		%Share_Button.disabled = false
+		%Exfiltrate_Button.disabled = false
+	else:
+		%Share_Button.disabled = true
+		%Exfiltrate_Button.disabled = true
+
 
 func close_player_card():
 	areas.sharing_player_secrets_list.clear()
@@ -123,9 +143,9 @@ func _choose_npc_secret(npc_secrets, player_secret) -> Secrets.Secret:
 	var equal = npc_secrets.filter(func (secret): return secret.grade == player_secret.grade)
 	var lower = npc_secrets.filter(func (secret): return secret.grade + 1 == player_secret.grade)
 
-	var thresholds = { 'lo': 0, 'eq': 0.4,  'hi': 0.6 }
+	var thresholds = { 'lo': 0, 'eq': 0.5,  'hi': 0.75 }
 	if local_npc_ref.is_hostile:
-		thresholds = { 'lo': 0, 'eq': 0.6,  'hi': 0.8 }
+		thresholds = { 'lo': 0, 'eq': 0.6,  'hi': 0.85 }
 
 	var candidates = npc_secrets
 	var r = randf()
@@ -143,6 +163,7 @@ func _on_cancel_button_pressed():
 	var suspicion = local_player_ref.suspicion
 	suspicion = clampf(suspicion - 0.01, 0, 1)
 	local_player_ref.set_suspicion(suspicion)
+	PubSub.audio_play_sfx.emit("menu-cancel")
 	close_secrets()
 
 
@@ -156,6 +177,7 @@ func _on_share_button_pressed():
 		local_npc_ref.give_secret(outgoing_secret)
 		local_player_ref.give_secret(incoming_secret)
 		PubSub.player_npc_trade.emit()
+		PubSub.audio_play_sfx.emit("exchange")
 		_change_suspicion(local_player_ref, local_npc_ref, outgoing_secret, incoming_secret)
 
 		# subsequent NPC-only trades:
@@ -174,7 +196,10 @@ func _on_exfiltrate_button_pressed():
 	var outgoing_secret = local_player_ref.held_secrets[selected_index]
 	if outgoing_secret:
 		local_player_ref.take_secret(outgoing_secret)
-		PubSub.player_achievement.emit("l%s_exfil" % outgoing_secret.grade)
+		var achievement = "l%s_exfil" % outgoing_secret.grade
+		PubSub.player_achievement.emit(achievement)
+		local_player_ref.achieved[achievement] = true
+		PubSub.audio_play_sfx.emit("whoosh")
 	close_secrets()
 
 
@@ -210,4 +235,3 @@ func _npcs_trade():
 	var npc2_secret = npc2.held_secrets.pick_random()
 	npc1.give_secret(npc2_secret)
 	npc2.give_secret(npc1_secret)
-	print("npc tradeL %s [%s] <-> %s [%s]" % [npc1.name, npc1_secret.grade, npc2.name, npc2_secret.grade])

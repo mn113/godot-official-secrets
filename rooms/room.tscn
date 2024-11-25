@@ -25,7 +25,7 @@
 [ext_resource type="ArrayMesh" uid="uid://cl1ylac0lkpsh" path="res://assets/Office/obj/DeskDivider.obj" id="23_fu8ds"]
 [ext_resource type="ArrayMesh" uid="uid://335id670sjg0" path="res://assets/Office/obj/Drawer.obj" id="24_fchqf"]
 [ext_resource type="ArrayMesh" uid="uid://cvsf4igc7jgr7" path="res://assets/Office/obj/Plant.obj" id="25_x36sf"]
-[ext_resource type="Texture2D" uid="uid://cgrpisk4gwb60" path="res://assets/kenney_prototypetextures/PNG/Green/texture_09.png" id="26_12qea"]
+[ext_resource type="Texture2D" uid="uid://cgrpisk4gwb60" path="res://assets/materials_textures/kenney_prototypetextures/PNG/Green/texture_09.png" id="26_12qea"]
 
 [sub_resource type="Resource" id="Resource_patmf"]
 script = ExtResource("2_0wfh3")

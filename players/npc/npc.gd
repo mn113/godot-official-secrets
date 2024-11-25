@@ -44,11 +44,9 @@ func with_data(data):
 
 func _init():
 	add_to_group("npcs")
-	# choose a name
+	# choose attributes
 	character_name = Names.generate_name(gender)
-	# choose hostility
 	is_hostile = randf() > 0.8
-	# choose suspicion level
 	suspicion = 0.5 + randf_range(-0.2, 0.2)
 
 
@@ -61,7 +59,8 @@ func _ready():
 	# choose starting secrets
 	initial_secrets.append(Secrets.get_secret(null, max_grade))
 	initial_secrets.append(Secrets.get_secret(null, max_grade))
-	initial_secrets.append(Secrets.get_secret(null, max_grade))
+	if randf() > 0.5:
+		initial_secrets.append(Secrets.get_secret(null, max_grade))
 	held_secrets = initial_secrets.duplicate()
 
 
@@ -79,18 +78,20 @@ func _process(delta):
 
 
 func _physics_process(delta):
+	# fix under floor bug?
+	# if position.y < 0:
+	# 	position.y = 1.1
+
 	# random movement interspersed with pauses
 	if paused_time_countdown > 0:
 		paused_time_countdown -= delta
 		if paused_time_countdown <= 0:
 			walk_time_countdown = randi_range(MIN_WALK_TIME, MAX_WALK_TIME)
-			# print("walking for", walk_time_countdown)
 
 	elif walk_time_countdown > 0:
 		walk_time_countdown -= delta
 		if walk_time_countdown <= 0:
 			paused_time_countdown = randi_range(MIN_PAUSE_TIME, MAX_PAUSE_TIME)
-			# print("pausing for", paused_time_countdown)
 
 		var r = randf()
 		if r > 0.025:
@@ -128,7 +129,7 @@ func _update_name_label():
 	$NameLabel.text = character_name if is_name_known else "unknown"
 	# $NameLabel.text += " (%s)" % texture_path
 	# $NameLabel.text += " %s" % is_on_floor()
-	$NameLabel.text += " %s" % max_grade
+	$NameLabel.text += " %s" % Secrets.SECRET_ICONS[max_grade - 1]
 
 
 func interact():
@@ -140,9 +141,13 @@ func interact():
 		"character_name": character_name,
 		"held_secrets": held_secrets
 	})
+	if gender == "f":
+		PubSub.audio_play_sfx.emit(["f_huh1", "f_huh2", "f_huh3"].pick_random())
+	else:
+		PubSub.audio_play_sfx.emit(["m_huh1", "m_huh2", "m_huh3", "m_huh4"].pick_random())
 
 
-func _update_secrets():
+func _update_held_secrets():
 	held_secrets = held_secrets.filter(func (secret):
 		return secret.grade > 0
 	)
@@ -152,10 +157,11 @@ func give_secret(secret):
 	if not secret in held_secrets:
 		held_secrets.append(secret)
 		secret.share()
-		_update_secrets()
+		_update_held_secrets()
 
 
 func get_shareable_secrets(exclude = []):
+	_update_held_secrets()
 	var shareable_secrets = held_secrets.filter(func (secret): return not secret in exclude)
 	if len(shareable_secrets) == 0:
 		return null

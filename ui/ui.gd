@@ -32,7 +32,6 @@ func _ready():
 	_toggle_area("secrets", true)
 	_toggle_area("messages", true)
 	_toggle_area("goals", true)
-	_update_area_property("messages_text", "text", "Hello World!")
 
 	# set up signals
 	PubSub.player_ready.connect(func (player):
@@ -40,6 +39,7 @@ func _ready():
 		_update_hud_player_secrets()
 		_update_hud_player_suspicion(0.1) #(player.suspicion)
 	)
+	PubSub.story_feed.connect(add_message)
 	PubSub.goals_change.connect(func (goals):
 		_update_area_property("goals_text", "text", "\n\n".join(goals.map(func (goal): return "- " + goal)))
 	)
@@ -103,7 +103,6 @@ func _update_hud_player_secrets():
 		var grade_secrets = local_player_ref.held_secrets.filter(func (secret): return secret.grade == grade)
 		var bullets_text = "".join(grade_secrets.map(func (secret): return secret._to_bullet()))
 		secrets_text += Secrets.colourise(grade, "L%d: %s\n" % [grade, bullets_text if len(bullets_text) else "-"])
-	# print(secrets_text)
 	_update_area_property("secrets_rich_text", "text", secrets_text)
 
 
@@ -116,11 +115,10 @@ func _update_hud_player_suspicion(suspicion):
 	# change hue - range scale is from green (low) to red (high)
 	var old_hue = suspicion_stylebox.bg_color.h
 	var new_hue = (1 - suspicion) / 3.0 # map 0..1 domain to hue range 0.33..0
-	add_message("old_hue: %f new_hue: %f" % [old_hue, new_hue])
-	print("old_hue: %f new_hue: %f" % [old_hue, new_hue])
 	suspicion_stylebox.bg_color.h = new_hue
+	print("old_hue: %f new_hue: %f" % [old_hue, new_hue])
 
 
 func add_message(richtext):
 	messages.append(richtext)
-	_update_area_property("messages_text", "text", "\n".join(messages.map(func (message): return "- " + message)))
+	_update_area_property("messages_text", "text", "\n".join(messages)) #.map(func (message): return "- " + message)))

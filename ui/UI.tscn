@@ -134,7 +134,7 @@ text = "1. Exit the room by lowering suspicion.
 shortcut_keys_enabled = false
 
 [node name="Control" type="Control" parent="."]
-custom_minimum_size = Vector2(400, 100)
+custom_minimum_size = Vector2(400, 150)
 layout_mode = 1
 anchor_left = 0.25
 anchor_top = 0.9

@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://s0t62g61res8"]
 
 [ext_resource type="Script" path="res://players/npc/npc.gd" id="1_dbcyt"]
-[ext_resource type="Texture2D" uid="uid://dc6r6b4oy8lse" path="res://assets/spcm/sprite20.png" id="2_b1d3c"]
-[ext_resource type="Texture2D" uid="uid://c8q4r8qhm22u" path="res://assets/kenney_prototypetextures/PNG/Dark/texture_02.png" id="3_p0t75"]
+[ext_resource type="Texture2D" uid="uid://dc6r6b4oy8lse" path="res://assets/sprites/spcm/sprite20.png" id="2_d8fpd"]
+[ext_resource type="Texture2D" uid="uid://c8q4r8qhm22u" path="res://assets/materials_textures/kenney_prototypetextures/PNG/Dark/texture_02.png" id="3_susay"]
 
 [sub_resource type="SystemFont" id="SystemFont_yo67u"]
 subpixel_positioning = 0
@@ -33,7 +33,7 @@ font_size = 64
 [node name="Sprite3D" type="Sprite3D" parent="Sprites"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15951, 0)
 billboard = 2
-texture = ExtResource("2_b1d3c")
+texture = ExtResource("2_d8fpd")
 
 [node name="ShadowsOnly_Sprite3D" type="Sprite3D" parent="Sprites/Sprite3D"]
 transform = Transform3D(0.101907, 0, 0, 0, 0.371951, 0, 0, 0, 1, 0, -0.182149, 0)
@@ -41,7 +41,7 @@ cast_shadow = 3
 pixel_size = 0.005
 billboard = 2
 transparent = false
-texture = ExtResource("3_p0t75")
+texture = ExtResource("3_susay")
 
 [node name="Shadow_MeshInstance3D" type="MeshInstance3D" parent="Sprites"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.978548, 0)

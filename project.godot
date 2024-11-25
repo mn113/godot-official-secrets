@@ -19,9 +19,11 @@ config/ninetailsrabbit.room_creator/update_notification_enabled=true
 [application]
 
 config/name="Official Secrets"
+config/description="3D first-person office-based espionage simulator."
+config/version="0.0.1"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
-config/icon="res://assets/icon.svg"
+config/icon="res://assets/levels_icon.png"
 
 [autoload]
 
@@ -36,7 +38,6 @@ gdscript/warnings/unused_signal=0
 
 window/size/viewport_width=1200
 window/size/viewport_height=800
-window/size/mode=2
 
 [editor_plugins]
 

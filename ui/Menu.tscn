@@ -1,0 +1,225 @@
+[gd_scene load_steps=7 format=3 uid="uid://d24xjb7t6atx6"]
+
+[ext_resource type="Theme" uid="uid://ctrmdggw11vqh" path="res://responsive_theme.tres" id="1_io5r7"]
+[ext_resource type="Script" path="res://ui/menu.gd" id="1_nmwpa"]
+[ext_resource type="Texture2D" uid="uid://s1iihc7iluav" path="res://assets/official_secrets.png" id="2_qfmt7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_u0kpv"]
+font_size = 24
+font_color = Color(0, 1, 0.833333, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bmev2"]
+font_size = 24
+font_color = Color(1, 0.37, 0.37, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tv2g3"]
+font_size = 24
+
+[node name="Menu" type="Control"]
+process_mode = 3
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_io5r7")
+script = ExtResource("1_nmwpa")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.151276, 0.151276, 0.151276, 1)
+
+[node name="MainMenu" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Logo_TextureRect" type="TextureRect" parent="MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+texture = ExtResource("2_qfmt7")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Won_Label" type="Label" parent="MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "You beat the game! Well done."
+label_settings = SubResource("LabelSettings_u0kpv")
+horizontal_alignment = 1
+
+[node name="Lost_Label" type="Label" parent="MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "You were arrested for espionage."
+label_settings = SubResource("LabelSettings_bmev2")
+horizontal_alignment = 1
+
+[node name="Start_Button" type="Button" parent="MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Start"
+
+[node name="Controls_Button" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Controls"
+
+[node name="Settings_Button" type="Button" parent="MainMenu/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Settings"
+
+[node name="Quit_Button" type="Button" parent="MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Quit"
+
+[node name="Controls_Rect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Controls_Rect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Controls_Rect/VBoxContainer"]
+layout_mode = 2
+text = "Controls"
+label_settings = SubResource("LabelSettings_tv2g3")
+horizontal_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Controls_Rect/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "Movement: WASD
+Look: Mouse
+Interact: Space
+Menu: Esc"
+fit_content = true
+
+[node name="HSeparator" type="HSeparator" parent="Controls_Rect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Back_Button" type="Button" parent="Controls_Rect/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Back"
+
+[node name="Settings_Rect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.25
+anchor_right = 0.75
+anchor_bottom = 0.75
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings_Rect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Settings_Rect/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+label_settings = SubResource("LabelSettings_tv2g3")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Settings_Rect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings_Rect/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Music volume"
+
+[node name="Music_HSlider" type="HSlider" parent="Settings_Rect/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+max_value = 5.0
+value = 5.0
+rounded = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Settings_Rect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Settings_Rect/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "SFX volume"
+
+[node name="SFX_HSlider" type="HSlider" parent="Settings_Rect/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+max_value = 5.0
+value = 5.0
+rounded = true
+
+[node name="HSeparator" type="HSeparator" parent="Settings_Rect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Back_Button2" type="Button" parent="Settings_Rect/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Back"
+
+[connection signal="pressed" from="MainMenu/VBoxContainer/Start_Button" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Controls_Button" to="." method="_on_controls_button_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Settings_Button" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Quit_Button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Controls_Rect/VBoxContainer/Back_Button" to="." method="_on_back_button_pressed"]
+[connection signal="value_changed" from="Settings_Rect/VBoxContainer/HBoxContainer/Music_HSlider" to="." method="_on_music_h_slider_value_changed"]
+[connection signal="value_changed" from="Settings_Rect/VBoxContainer/HBoxContainer2/SFX_HSlider" to="." method="_on_sfx_h_slider_value_changed"]
+[connection signal="pressed" from="Settings_Rect/VBoxContainer/Back_Button2" to="." method="_on_back_button_pressed"]
