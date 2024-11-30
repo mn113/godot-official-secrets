@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bkc3vdjthet41"
+path="res://.godot/imported/plant_modeling.obj-75c46373af85ae6562127e8ff161e70d.mesh"
+
+[deps]
+
+files=["res://.godot/imported/plant_modeling.obj-75c46373af85ae6562127e8ff161e70d.mesh"]
+
+source_file="res://assets/3d_models/f6zgdcqlly4g-money_plant/plant_modeling.obj"
+dest_files=["res://.godot/imported/plant_modeling.obj-75c46373af85ae6562127e8ff161e70d.mesh", "res://.godot/imported/plant_modeling.obj-75c46373af85ae6562127e8ff161e70d.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=4 uid="uid://dfixw1s1bnoit"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_330a5"]
+_surfaces = [{
+"aabb": AABB(-0.176571, -0.358852, 0.00199889, 0.353153, 0.717703, 1.00001e-05),
+"format": 34359742465,
+"index_count": 6,
+"index_data": PackedByteArray("AQACAAAAAQADAAIA"),
+"name": "PanelSitcker_Mat",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("IM80Pm27t769/wI7IM80vm27t769/wI7IM80Pme7tz5DAAM7IM80vmW7tz5DAAM7")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fp7mv"]
+resource_name = "SciFiLikeTiles_Stickers_6"
+_surfaces = [{
+"aabb": AABB(-0.176571, -0.358852, 0.00199889, 0.353153, 0.717703, 1.00001e-05),
+"attribute_data": PackedByteArray("eykRPlheAT87wak9WF4BP3opET74N4g+OsGpPfg3iD4="),
+"format": 34359742487,
+"index_count": 6,
+"index_data": PackedByteArray("AQACAAAAAQADAAIA"),
+"name": "PanelSitcker_Mat",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("IM80Pm27t769/wI7IM80vm27t769/wI7IM80Pme7tz5DAAM7IM80vmW7tz5DAAM7/3//f////7//f/9/////v/9//3/+//+//3//f/7//78=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_330a5")
+
+[node name="Stickers_6" type="MeshInstance3D"]
+mesh = SubResource("ArrayMesh_fp7mv")
+skeleton = NodePath("")

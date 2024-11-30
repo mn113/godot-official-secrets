@@ -1,0 +1,103 @@
+[gd_scene load_steps=21 format=3 uid="uid://dugvyjfyaa7ox"]
+
+[sub_resource type="Resource" id="Resource_s1mw8"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_barrel.tscn"
+
+[sub_resource type="Resource" id="Resource_ljq30"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_barrel_static.tscn"
+
+[sub_resource type="Resource" id="Resource_vljug"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_box.tscn"
+
+[sub_resource type="Resource" id="Resource_l1yak"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_box_static.tscn"
+
+[sub_resource type="Resource" id="Resource_2qka0"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_chest.tscn"
+
+[sub_resource type="Resource" id="Resource_dq1th"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_chest_static.tscn"
+
+[sub_resource type="Resource" id="Resource_kvfts"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_locker.tscn"
+
+[sub_resource type="Resource" id="Resource_48ynk"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_locker_static.tscn"
+
+[sub_resource type="Resource" id="Resource_wr1ay"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_locker_group_static.tscn"
+
+[sub_resource type="Resource" id="Resource_io7ps"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/furn_chair.tscn"
+
+[sub_resource type="Resource" id="Resource_pune0"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/furn_stool.tscn"
+
+[sub_resource type="Resource" id="Resource_5ullg"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/furn_table_1.tscn"
+
+[sub_resource type="Resource" id="Resource_n27jr"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/furn_table_2.tscn"
+
+[sub_resource type="Resource" id="Resource_8wn5j"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_display_case_1.tscn"
+
+[sub_resource type="Resource" id="Resource_l5gp8"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/cont_display_case_2.tscn"
+
+[sub_resource type="Resource" id="Resource_ukhhk"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/furn_couch.tscn"
+
+[sub_resource type="Resource" id="Resource_n00rq"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/tool_tool_box.tscn"
+
+[sub_resource type="Resource" id="Resource_k2e37"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/tool_crow_bar.tscn"
+
+[sub_resource type="Resource" id="Resource_5bpkj"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/tool_spanner.tscn"
+
+[sub_resource type="Resource" id="Resource_7c4ey"]
+metadata/__load_path__ = "res://Assets/sci-fi-like Asset/scenes/Props/tool_tray.tscn"
+
+[node name="Generic_Props" type="Node3D"]
+
+[node name="Cont_Barrel" parent="."]
+
+[node name="Cont_Barrel_static" parent="."]
+
+[node name="Cont_Box" parent="."]
+
+[node name="Cont_Box_Static" parent="."]
+
+[node name="Cont_Chest" parent="."]
+
+[node name="Cont_Chest_Static" parent="."]
+
+[node name="Cont_Locker" parent="."]
+
+[node name="Cont_Locker_Static" parent="."]
+
+[node name="Cont_LockerGroup_Static" parent="."]
+
+[node name="Furn_Chair" parent="."]
+
+[node name="Furn_Stool" parent="."]
+
+[node name="Furn_Table_1" parent="."]
+
+[node name="Furn_Table_2" parent="."]
+
+[node name="Cont_DisplayCase_1" parent="."]
+
+[node name="Cont_DisplayCase_2" parent="."]
+
+[node name="Furn_Couch" parent="."]
+
+[node name="Tool_ToolBox" parent="."]
+
+[node name="Tool_CrowBar" parent="."]
+
+[node name="Tool_Spanner" parent="."]
+
+[node name="Tool_Tray" parent="."]

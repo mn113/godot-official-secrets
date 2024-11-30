@@ -1,0 +1,78 @@
+[gd_scene load_steps=5 format=4 uid="uid://cbvo02v832lpb"]
+
+[ext_resource type="Material" uid="uid://q8qbbdouiwvy" path="res://assets/3d_models/sci-fi-like Asset/materials/TilesMaterials/PanelTrim_Mat.tres" id="1_s5vkq"]
+[ext_resource type="Material" uid="uid://cpeilnjoelfqd" path="res://assets/3d_models/sci-fi-like Asset/materials/TilesMaterials/InstancedEmissionShader_Material.tres" id="2_nev8p"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_2abyn"]
+_surfaces = [{
+"aabb": AABB(-0.869826, -0.86527, -3.80213e-08, 1.73966, 1.73054, 0.311667),
+"format": 34359742465,
+"index_count": 72,
+"index_data": PackedByteArray("BwAAAAMABwAEAAAABAABAAAABAAFAAEABgADAAIABgAHAAMABQACAAEABQAGAAIACQAKAAgACQANAAoACAALAA4ACAAKAAsADwANAAkADwAMAA0ADgAMAA8ADgALAAwABwAIAAQABwAJAAgABAAOAAUABAAIAA4ABQAPAAYABQAOAA8ABgAJAAcABgAPAAkA"),
+"name": "PanelsTrim_Mat",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("6qxeP0+CXb/eTCOz7axeP0uCXT/eTCOz6qxev0+CXT/eTCMz7axev0uCXb/eTCMz6qxeP0+CXb/Dkp8+7axeP0uCXT/Dkp8+6qxev0+CXT/Gkp8+7axev0uCXb/Gkp8+lMEVP0mTFL/Fkp8+y8EVv0eTFL/Fkp8+lMEVP0mTFL8twWA+lsEVP0eTFD8twWA+ycEVv0mTFD8vwWA+y8EVv0eTFL8vwWA+xMEVP0STFD/Ekp8+w8EVv0eTFD/Fkp8+")
+}, {
+"aabb": AABB(-0.584988, -0.580372, 0.219487, 1.16998, 1.16074, 9.99868e-06),
+"format": 34359742465,
+"index_count": 6,
+"index_data": PackedByteArray("AwABAAAAAwACAAEA"),
+"name": "LightsEmission",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("lMEVP0mTFL8twWA+lsEVP0eTFD8twWA+ycEVv0mTFD8vwWA+y8EVv0eTFL8vwWA+")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_k768x"]
+resource_name = "SciFiLikeTiles_Panel_Light"
+_surfaces = [{
+"aabb": AABB(-0.869826, -0.86527, -3.80213e-08, 1.73966, 1.73054, 0.311667),
+"attribute_data": PackedByteArray("E5xhP3T5fz80pWo/4Ox2P3qoKj/h7HY/m7EzP3L5fz97qCo/C7NIP5qxMz92pj8/FJxhP3emPz8zpWo/CrNIPzKlaj90+X8/NKVqP3T5fz80pWo/dPl/P3qoKj9z+X8/eqgqP3X5fz98qCo/c/l/P3uoKj92pj8/e6gqP3amPz97qCo/eKY/PzOlaj93pj8/M6VqP3emPz8zpWo/d6Y/P2B5Xz/0ans/dRxgP0RxdT8jH2A/ns10P2B5Xz82BEo/dBxgP6cuSj92HGA/py5KPyUfYD9M0ko/YHlfPxFLdT8FP2Y/ns10P3unLj+ezXQ/T9Q1PxFLdT97py4/TNJKP0/UNT9U5EM/YHlfP1TkQz8HP2Y/TNJKP17HND+ezXQ/ODE1P0NxdT85MTU/Q3F1P0/UNT/zans/Xcc0P0zSSj84MTU/pi5KPzkxNT+nLko/T9Q1PzYESj8="),
+"format": 34359742487,
+"index_count": 72,
+"index_data": PackedByteArray("EgAAAAYAEgAIAAAACgACAAEACgAMAAIAEAAHAAQAEAARAAcADQAFAAMADQAPAAUAGgAcABYAGgAiABwAFAAeACYAFAAbAB4AKgAhABcAKgAgACEAIwAfACcAIwAdAB8AEwAVAAkAEwAZABUACQAkAAsACQAVACQACwApAA4ACwAlACkADgAYABMADgAoABgA"),
+"material": ExtResource("1_s5vkq"),
+"name": "PanelsTrim_Mat",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 43,
+"vertex_data": PackedByteArray("6qxeP0+CXb/eTCOz6qxeP0+CXb/eTCOz7axeP0uCXT/eTCOz7axeP0uCXT/eTCOz6qxev0+CXT/eTCMz6qxev0+CXT/eTCMz7axev0uCXb/eTCMz7axev0uCXb/eTCMz6qxeP0+CXb/Dkp8+6qxeP0+CXb/Dkp8+6qxeP0+CXb/Dkp8+7axeP0uCXT/Dkp8+7axeP0uCXT/Dkp8+7axeP0uCXT/Dkp8+6qxev0+CXT/Gkp8+6qxev0+CXT/Gkp8+6qxev0+CXT/Gkp8+7axev0uCXb/Gkp8+7axev0uCXb/Gkp8+7axev0uCXb/Gkp8+lMEVP0mTFL/Fkp8+lMEVP0mTFL/Fkp8+lMEVP0mTFL/Fkp8+y8EVv0eTFL/Fkp8+y8EVv0eTFL/Fkp8+y8EVv0eTFL/Fkp8+y8EVv0eTFL/Fkp8+lMEVP0mTFL8twWA+lMEVP0mTFL8twWA+lsEVP0eTFD8twWA+lsEVP0eTFD8twWA+ycEVv0mTFD8vwWA+ycEVv0mTFD8vwWA+y8EVv0eTFL8vwWA+y8EVv0eTFL8vwWA+xMEVP0STFD/Ekp8+xMEVP0STFD/Ekp8+xMEVP0STFD/Ekp8+xMEVP0STFD/Ekp8+w8EVv0eTFD/Fkp8+w8EVv0eTFD/Fkp8+w8EVv0eTFD/Fkp8+w8EVv0eTFD/Fkp8+/38AAP9//7/+//9//38AgP7//3//fwCA/3/+////AIAAAP9//38AgP9//v///wCA/38AAP9//78AAP9//38AgP9/AAD/f/+//3//f/9//n/+//9//38AgP9//3//f/5//v//f/9/AID/f/7///8AgP9//3//f/5//3/+//////8AAP9//38AgAAA/3//fwCA/38AAP9//7//f/9//3/+fwAA/3//f/5//3//f/9//n//f/7///////7//3//fwCA/3//f/9//n//f/9//3/+f/9//v//////AAD/f/9//n//f/7///////9/AAAAgP+/AAD/f/9//n//fwAA/3//v/7//3//fwCA/v//f/9/AID/f/7///////9/AAAAgP+//3//f/9//n//f/9//3/+fwAA/3//f/5//38AAP9//7//f/9//3/+f/9//3//f/5//v//f/9/AIA=")
+}, {
+"aabb": AABB(-0.584988, -0.580372, 0.219487, 1.16998, 1.16074, 9.99868e-06),
+"attribute_data": PackedByteArray("YHlfP57NdD9P1DU/ns10P1DUNT9M0ko/XnlfP0zSSj8="),
+"format": 34359742487,
+"index_count": 6,
+"index_data": PackedByteArray("AwABAAAAAwACAAEA"),
+"material": ExtResource("2_nev8p"),
+"name": "LightsEmission",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("lMEVP0mTFL8twWA+lsEVP0eTFD8twWA+ycEVv0mTFD8vwWA+y8EVv0eTFL8vwWA+/3//f/9//n//f/9//3/+f/9//3//f/5//3//f/9//n8=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_2abyn")
+
+[node name="Panel_Light" type="MeshInstance3D"]
+instance_shader_parameters/albedo = Color(1, 1, 1, 1)
+instance_shader_parameters/emission = Color(1, 1, 1, 1)
+instance_shader_parameters/emission_energy = 20.0
+mesh = SubResource("ArrayMesh_k768x")
+skeleton = NodePath("")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0.502488)
+light_energy = 3.0
+light_indirect_energy = 3.0
+light_volumetric_fog_energy = 1.5
+shadow_enabled = true
+shadow_normal_bias = 3.0
+shadow_transmittance_bias = 1.0
+distance_fade_enabled = true
+spot_range = 12.0
+spot_attenuation = 1.03526
+spot_angle = 80.0

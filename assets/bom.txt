@@ -1,0 +1,12 @@
+models:
+https://loafbrr.itch.io/sci-fi-like-asset-pack
+https://free3d.com/3d-model/money-plant--42272.html
+https://free3d.com/3d-model/indoor-pot-plant-77983.html
+https://free3d.com/3d-model/main-frame-server-3d-model-with-texture-338981.html
+sprites:
+https://dcd3b2.itch.io/spcm
+sounds:
+https://zjnbwxq.itch.io/sfxui-sound-effect-pack-no1
+music:
+https://clement-panchout.itch.io/yet-another-free-music-pack
+https://nox-sound-design.itch.io/essentials-series-sfx-nox-sound
