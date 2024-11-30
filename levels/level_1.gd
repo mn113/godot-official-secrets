@@ -1,5 +1,7 @@
 extends Node
 
+const NUM_NPCS = 13
+
 const STORY = {
 	0: [],
 	1: [
@@ -47,20 +49,15 @@ const GOALS = [
 var shown_goal_indexes = [0, 1, 6]
 var shown_goals = []
 
-const NUM_NPCS = 12
-
 var spawn_markers: Array[Node] = []
 
-var injected: Node
-
 var door_nodes = {
-	'1': { 'id': 1, 'node': null, 'open': true },
-	'2': { 'id': 2, 'node': null, 'open': true },
-	'3': { 'id': 3, 'node': null, 'open': false }, # opens after 5 trades
-	'4': { 'id': 4, 'node': null, 'open': false }, # opens after L2 exfiltration
-	'5': { 'id': 5, 'node': null, 'open': false }, # opens after L3 exfiltration
-	'6': { 'id': 6, 'node': null, 'open': false }  # opens after L4 exfiltration
+	1: { "id": 1, "node": null, "open": false }, # opens after 5 trades
+	2: { "id": 2, "node": null, "open": false }, # opens after L2 exfiltration
+	3: { "id": 3, "node": null, "open": false }, # opens after L3 exfiltration
 }
+
+var injected: Node
 
 
 func wait(seconds: float):
@@ -68,14 +65,15 @@ func wait(seconds: float):
 
 
 func get_random_spawn_point() -> Marker3D:
-	return spawn_markers.pick_random()
+	# spawning an NPC on top of an NPC could result in them getting y stuck high or low
+	# so use each marker once only
+	return spawn_markers.pop_front()
 
 
 func open_door(id):
-	#door_nodes[str(id)].node.position.y -= 5
-	door_nodes[str(id)].node.hide()
-	door_nodes[str(id)].node.set_process_mode(Node.PROCESS_MODE_DISABLED)
-	door_nodes[str(id)].open = true
+	door_nodes[id].node.hide()
+	door_nodes[id].node.set_process_mode(Node.PROCESS_MODE_DISABLED)
+	door_nodes[id].open = true
 	PubSub.audio_play_sfx.emit("door")
 
 
@@ -93,10 +91,12 @@ func _ready():
 
 	# spawns
 	spawn_markers = $Markers.get_children()
+	spawn_markers.shuffle()
 
 	# doors
-	door_nodes['1'].node = $Doors/Door1
-	door_nodes['2'].node = $Doors/Door2
+	door_nodes[1].node = $Doors/Door1 # to L3 room
+	door_nodes[2].node = $Doors/Door2 # to L4 room
+	door_nodes[3].node = $Doors/Door3 # to L5 room
 
 	# music
 	PubSub.audio_play_music.emit("game")
@@ -118,46 +118,45 @@ func _process_achievement(achievement):
 		PubSub.story_feed.emit(STORY[1][2])
 		PubSub.story_feed.emit(STORY[1][3])
 
-	if achievement == "moved_15m":
+	elif achievement == "moved_15m":
 		PubSub.story_feed.emit(STORY[1][4])
 
-	if achievement == "5_trades":
+	elif achievement == "5_trades":
 		open_door(1)
 		shown_goal_indexes.erase(1)
 
-	if achievement == "l2_found" && !shown_goal_indexes.has(2):
+	elif achievement == "l2_found" and !shown_goal_indexes.has(2):
 		shown_goal_indexes.erase(1)
 		shown_goal_indexes.append(2)
 
-	if achievement == "l2_exfil":
+	elif achievement == "l2_exfil":
 		open_door(2)
 		shown_goal_indexes.erase(2)
 		PubSub.story_feed.emit(STORY[2][0])
 		PubSub.story_feed.emit(STORY[2][1])
 
-	if achievement == "l3_found" && !shown_goal_indexes.has(3):
+	elif achievement == "l3_found" and !shown_goal_indexes.has(3):
 		shown_goal_indexes.erase(1)
 		shown_goal_indexes.append(3)
 
-	if achievement == "l3_exfil":
-		open_door(2)
+	elif achievement == "l3_exfil":
+		open_door(3)
 		shown_goal_indexes.erase(3)
 		PubSub.story_feed.emit(STORY[3][0])
 		PubSub.story_feed.emit(STORY[3][1])
 
-	if achievement == "l4_found" && !shown_goal_indexes.has(4):
+	elif achievement == "l4_found" and !shown_goal_indexes.has(4):
 		shown_goal_indexes.append(4)
 
-	if achievement == "l4_exfil":
-		open_door(2)
+	elif achievement == "l4_exfil":
 		shown_goal_indexes.erase(4)
 		PubSub.story_feed.emit(STORY[4][0])
 		PubSub.story_feed.emit(STORY[4][1])
 
-	if achievement == "l5_found" && !shown_goal_indexes.has(5):
+	elif achievement == "l5_found" and !shown_goal_indexes.has(5):
 		shown_goal_indexes.append(5)
 
-	if achievement == "l5_exfil":
+	elif achievement == "l5_exfil":
 		shown_goal_indexes.erase(5)
 		# game beaten!
 		PubSub.story_feed.emit(STORY[5][0])
@@ -173,7 +172,7 @@ func _process_achievement(achievement):
 		wait(3)
 		PubSub.game_win.emit()
 
-	if achievement == "know_all":
+	elif achievement == "know_all":
 		PubSub.story_feed.emit(STORY[6][0])
 
 	_calc_shown_goals()

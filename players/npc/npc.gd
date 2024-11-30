@@ -1,22 +1,21 @@
 extends CharacterBody3D
 
 # static classes
-var Greetings = preload("res://statics/npc_greetings.gd")
-var Names = preload("res://statics/npc_names.gd")
-var Textures = preload("res://statics/npc_textures.gd")
+var Greetings = preload("res://players/npc/npc_greetings.gd")
+var Names = preload("res://players/npc/npc_names.gd")
 
 # constants
-const NPC_SPEED = 5 # metres/tick
-const SHOW_NAME_DISTANCE = 25 #10 # metres
-const MIN_WALK_TIME = 3 # seconds
-const MAX_WALK_TIME = 6 # seconds
-const MIN_PAUSE_TIME = 3 # seconds
-const MAX_PAUSE_TIME = 10 # seconds
-const INTERACT_COOLDOWN_TIME = 5 # 20 seconds
+const NPC_SPEED := 5.0 # metres/tick
+const SHOW_NAME_DISTANCE := 25.0 #10 # metres
+const MIN_WALK_TIME := 3.0 # seconds
+const MAX_WALK_TIME := 6.0 # seconds
+const MIN_PAUSE_TIME := 3.0 # seconds
+const MAX_PAUSE_TIME := 10.0 # seconds
+const INTERACT_COOLDOWN_TIME := 5.0 # 20 seconds
 
 # initable / game data
 var character_name = ""
-var texture = Textures.get_texture()
+var texture = NpcTextures.get_texture()
 var texture_path = texture.path
 var gender = texture.gender
 var is_hostile = randf() > 0.5
@@ -25,20 +24,21 @@ var initial_secrets = []
 var held_secrets = []
 
 # runtime / ephemeral data
-var is_name_known = randf() > 0.5
-var is_player_adjacent = false
-var speed = NPC_SPEED + randf_range(-NPC_SPEED/8.0, NPC_SPEED/8.0)
+var is_name_known := randf() > 0.5
+var is_player_adjacent := false
+var speed := NPC_SPEED + randf_range(-NPC_SPEED/8.0, NPC_SPEED/8.0)
 var heading := Vector3(0, 0, 0) # 'y' always 0
-var paused_time_countdown = randi_range(MIN_PAUSE_TIME, MAX_PAUSE_TIME) # start paused
-var walk_time_countdown = 0
-var interact_cooldown_countdown = 0
-var max_grade
+var paused_time_countdown := randf_range(MIN_PAUSE_TIME, MAX_PAUSE_TIME) # starts paused
+var walk_time_countdown := 0.0
+var interact_cooldown_countdown := 0.0
+var max_grade := Secrets.SECRET_GRADES[4]
 
 
-# chain call, as: NPC.instantiate().with_data({})
+# chain this call, as: NPC.instantiate().with_data({})
 func with_data(data):
 	position = data.position
 	max_grade = data.max_grade
+	print("placed NPC at pos %s", position)
 	return self
 
 
@@ -60,8 +60,17 @@ func _ready():
 	initial_secrets.append(Secrets.get_secret(null, max_grade))
 	initial_secrets.append(Secrets.get_secret(null, max_grade))
 	if randf() > 0.5:
-		initial_secrets.append(Secrets.get_secret(null, max_grade))
+		initial_secrets.append(Secrets.get_secret(max_grade, max_grade))
 	held_secrets = initial_secrets.duplicate()
+
+	# event for later
+	PubSub.add_npc_secret.connect(func (grade):
+		if len(held_secrets) < 4 and randf() > 0.5:
+			var secret = Secrets.get_secret(grade)
+			if secret: # can be null if nothing left
+				held_secrets.append(secret)
+				print("L%s secret assigned to %s" % [grade, character_name])
+	)
 
 
 func _pick_heading():
@@ -72,26 +81,22 @@ func _pick_heading():
 func _process(delta):
 	var player = get_tree().get_nodes_in_group("player")[0]
 	$NameLabel.visible = self.position.distance_to(player.position) < SHOW_NAME_DISTANCE
-	$NameLabel.modulate = Color.YELLOW if is_player_adjacent else Color.WHITE
+	$NameLabel.modulate = get_max_secret_colour() if is_player_adjacent else Color.WHITE
 	if interact_cooldown_countdown > 0:
 		interact_cooldown_countdown -= delta
 
 
 func _physics_process(delta):
-	# fix under floor bug?
-	# if position.y < 0:
-	# 	position.y = 1.1
-
 	# random movement interspersed with pauses
 	if paused_time_countdown > 0:
 		paused_time_countdown -= delta
 		if paused_time_countdown <= 0:
-			walk_time_countdown = randi_range(MIN_WALK_TIME, MAX_WALK_TIME)
+			walk_time_countdown = randf_range(MIN_WALK_TIME, MAX_WALK_TIME)
 
 	elif walk_time_countdown > 0:
 		walk_time_countdown -= delta
 		if walk_time_countdown <= 0:
-			paused_time_countdown = randi_range(MIN_PAUSE_TIME, MAX_PAUSE_TIME)
+			paused_time_countdown = randf_range(MIN_PAUSE_TIME, MAX_PAUSE_TIME)
 
 		var r = randf()
 		if r > 0.025:
@@ -127,9 +132,7 @@ func _input(event):
 
 func _update_name_label():
 	$NameLabel.text = character_name if is_name_known else "unknown"
-	# $NameLabel.text += " (%s)" % texture_path
-	# $NameLabel.text += " %s" % is_on_floor()
-	$NameLabel.text += " %s" % Secrets.SECRET_ICONS[max_grade - 1]
+	# $NameLabel.text += " %s" % Secrets.SECRET_ICONS[max_grade - 1]
 
 
 func interact():
@@ -147,7 +150,15 @@ func interact():
 		PubSub.audio_play_sfx.emit(["m_huh1", "m_huh2", "m_huh3", "m_huh4"].pick_random())
 
 
+func get_max_secret_colour():
+	_update_held_secrets()
+	if is_name_known:
+		return Secrets.SECRET_COLORS[held_secrets[0].grade - 1]
+	return Secrets.SECRET_COLORS[0]
+
+
 func _update_held_secrets():
+	held_secrets.sort_custom(Secrets.sort_by_grade)
 	held_secrets = held_secrets.filter(func (secret):
 		return secret.grade > 0
 	)

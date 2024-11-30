@@ -14,15 +14,18 @@ func _on_size_changed():
 	var percent = get_window().size.y / 100.0
 	self.theme.set_font_size("font_size", "Label", 2 * percent)
 	self.theme.set_font_size("font_size", "Button", 2 * percent)
-	%Logo_TextureRect.custom_minimum_size = Vector2(0, 25 * percent)
+	%Logo_TextureRect.custom_minimum_size = Vector2(0, 20 * percent)
 
 
 func set_initial_state():
+	%MainMenu_Rect.show()
+	%Controls_Rect.hide()
+	%Settings_Rect.hide()
+	%Credits_Rect.hide()
 	%Won_Label.hide()
 	%Lost_Label.hide()
 	%Start_Button.show()
-	%Controls_Rect.hide()
-	%Settings_Rect.hide()
+	%Start_Button.grab_focus()
 
 
 func set_paused_state():
@@ -40,27 +43,38 @@ func set_lost_state():
 
 
 func _on_start_button_pressed():
-	print("start button pressed")
 	PubSub.audio_play_sfx.emit("menu-in")
 	PubSub.game_begin.emit()
 
 
 func _on_controls_button_pressed():
-	print("controls button pressed")
+	%MainMenu_Rect.hide()
 	%Controls_Rect.show()
+	%Back_Button.grab_focus()
 	PubSub.audio_play_sfx.emit("menu-in")
 
 
 func _on_settings_button_pressed():
-	print("settings button pressed")
+	%MainMenu_Rect.hide()
 	%Settings_Rect.show()
+	%Back_Button2.grab_focus()
+	PubSub.audio_play_sfx.emit("menu-in")
+
+
+func _on_credits_button_pressed() -> void:
+	%MainMenu_Rect.hide()
+	%Credits_Rect.show()
+	%Back_Button3.grab_focus()
 	PubSub.audio_play_sfx.emit("menu-in")
 
 
 func _on_back_button_pressed():
 	%Controls_Rect.hide()
 	%Settings_Rect.hide()
-	PubSub.audio_play_sfx.emit("menu-cancel")
+	%Credits_Rect.hide()
+	%MainMenu_Rect.show()
+	%Start_Button.grab_focus()
+	PubSub.audio_play_sfx.emit("cancel")
 
 
 func _on_quit_button_pressed():

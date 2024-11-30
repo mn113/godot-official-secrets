@@ -12,10 +12,6 @@ config_version=5
 
 config/ninetailsrabbit.room_creator/update_notification_enabled=true
 
-[Official Secrets]
-
-config/ninetailsrabbit.room_creator/update_notification_enabled=true
-
 [application]
 
 config/name="Official Secrets"
@@ -29,6 +25,7 @@ config/icon="res://assets/levels_icon.png"
 
 PubSub="*res://autoloads/PubSub.gd"
 Secrets="*res://autoloads/Secrets.gd"
+NpcTextures="*res://autoloads/npc_textures.gd"
 
 [debug]
 

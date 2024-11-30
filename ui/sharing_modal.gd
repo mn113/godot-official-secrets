@@ -4,6 +4,7 @@ var areas
 var local_npc_ref
 var local_player_ref
 var npc_secret
+var outgoing_secrets
 
 func _ready():
 	areas = {
@@ -48,12 +49,13 @@ func open_secrets(player, npc, data, mode = "npc"):
 
 	var can_share = true
 	if mode == "npc":
-		can_share = open_npc_card(data)
 		_update_area_property("sharing_modal_heading", "text", "Share secret with %s?" % local_npc_ref.character_name)
+		outgoing_secrets = local_player_ref.get_shareable_secrets()
+		can_share = open_npc_card(data) and outgoing_secrets
 	elif mode == 'exfil':
-		# do no exfiltrate only secret
-		can_share = len(local_player_ref.held_secrets) > 1
 		_update_area_property("sharing_modal_heading", "text", "Exfiltrate secret?")
+		outgoing_secrets = local_player_ref.get_exfilable_secrets()
+		can_share = !!outgoing_secrets
 
 	open_player_card(can_share, mode)
 
@@ -61,6 +63,7 @@ func open_secrets(player, npc, data, mode = "npc"):
 func close_secrets():
 	local_npc_ref = null
 	npc_secret = null
+	outgoing_secrets = null
 	close_npc_card()
 	close_player_card()
 	PubSub.close_secrets.emit()
@@ -109,7 +112,7 @@ func close_npc_card():
 
 func open_player_card(can_share = true, mode = "npc"):
 	areas.sharing_player_secrets_list.clear()
-	var list_secrets = local_player_ref.held_secrets
+	var list_secrets = outgoing_secrets
 	if mode == "exfil":
 		list_secrets = list_secrets.filter(func (secret): return secret.grade > 1)
 	list_secrets.sort_custom(Secrets.sort_by_grade)
@@ -138,10 +141,14 @@ func close_player_card():
 
 
 func _choose_npc_secret(npc_secrets, player_secret) -> Secrets.Secret:
+	# do not provide too high-grade a secret
+	var sought_grade = local_player_ref.get_sought_secret_grade()
+	var eligible_npc_secrets = npc_secrets.filter(func (secret): return secret.grade <= sought_grade)
+
 	# NPC higher/equal/lower-grade secrets
-	var higher = npc_secrets.filter(func (secret): return secret.grade - 1 == player_secret.grade)
-	var equal = npc_secrets.filter(func (secret): return secret.grade == player_secret.grade)
-	var lower = npc_secrets.filter(func (secret): return secret.grade + 1 == player_secret.grade)
+	var higher = eligible_npc_secrets.filter(func (secret): return secret.grade - 1 == player_secret.grade)
+	var equal = eligible_npc_secrets.filter(func (secret): return secret.grade == player_secret.grade)
+	var lower = eligible_npc_secrets.filter(func (secret): return secret.grade + 1 == player_secret.grade)
 
 	var thresholds = { 'lo': 0, 'eq': 0.5,  'hi': 0.75 }
 	if local_npc_ref.is_hostile:
@@ -171,13 +178,13 @@ func _on_share_button_pressed():
 	if not areas.sharing_player_secrets_list.is_anything_selected():
 		return
 	var selected_index = areas.sharing_player_secrets_list.get_selected_items()[0]
-	var outgoing_secret = local_player_ref.held_secrets[selected_index]
+	var outgoing_secret = outgoing_secrets[selected_index]
 	var incoming_secret = _choose_npc_secret(local_npc_ref.held_secrets, outgoing_secret)
 	if outgoing_secret and incoming_secret:
 		local_npc_ref.give_secret(outgoing_secret)
 		local_player_ref.give_secret(incoming_secret)
 		PubSub.player_npc_trade.emit()
-		PubSub.audio_play_sfx.emit("exchange")
+		PubSub.audio_play_sfx.emit("whisper")
 		_change_suspicion(local_player_ref, local_npc_ref, outgoing_secret, incoming_secret)
 
 		# subsequent NPC-only trades:
@@ -193,13 +200,12 @@ func _on_exfiltrate_button_pressed():
 	if not areas.sharing_player_secrets_list.is_anything_selected():
 		return
 	var selected_index = areas.sharing_player_secrets_list.get_selected_items()[0]
-	var outgoing_secret = local_player_ref.held_secrets[selected_index]
+	var outgoing_secret = outgoing_secrets[selected_index]
 	if outgoing_secret:
-		local_player_ref.take_secret(outgoing_secret)
+		# local_player_ref.take_secret(outgoing_secret)
 		var achievement = "l%s_exfil" % outgoing_secret.grade
-		PubSub.player_achievement.emit(achievement)
-		local_player_ref.achieved[achievement] = true
-		PubSub.audio_play_sfx.emit("whoosh")
+		local_player_ref.achieve(achievement)
+		PubSub.audio_play_sfx.emit("unlock")
 	close_secrets()
 
 

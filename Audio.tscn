@@ -30,11 +30,3 @@ max_polyphony = 4
 [node name="Sfx_AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = SubResource("AudioStream_4n2mc")
-
-[node name="Sfx_AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
-unique_name_in_owner = true
-stream = SubResource("AudioStream_4n2mc")
-
-[node name="Sfx_AudioStreamPlayer4" type="AudioStreamPlayer" parent="."]
-unique_name_in_owner = true
-stream = SubResource("AudioStream_4n2mc")

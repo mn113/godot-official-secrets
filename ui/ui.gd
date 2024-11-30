@@ -45,14 +45,11 @@ func _ready():
 	)
 	PubSub.open_secrets.connect(open_secrets)
 	PubSub.close_secrets.connect(close_secrets)
-	PubSub.player_secrets_change.connect(func (secret):
+	PubSub.player_secrets_receive.connect(func (secret):
 		add_message("Received L%s secret: \"%s\"." % [secret.grade, secret._to_string_rich()])
-		_update_hud_player_secrets()
 	)
-	PubSub.player_suspicion_change.connect(func (suspicion):
-		print("suspicion: %f" % suspicion)
-		_update_hud_player_suspicion(suspicion)
-	)
+	PubSub.player_secrets_change.connect(_update_hud_player_secrets)
+	PubSub.player_suspicion_change.connect(_update_hud_player_suspicion)
 	PubSub.outbox_interact.connect(func ():
 		open_secrets(null, null, "exfil")
 	)
@@ -107,18 +104,17 @@ func _update_hud_player_secrets():
 
 
 func _update_hud_player_suspicion(suspicion):
-	add_message("suspicion: %s" % suspicion)
+	#add_message("suspicion: %s" % suspicion)
 
 	# alter suspicion bar width
 	_update_area_property("suspicion_level", "value", suspicion * 100)
 
 	# change hue - range scale is from green (low) to red (high)
-	var old_hue = suspicion_stylebox.bg_color.h
 	var new_hue = (1 - suspicion) / 3.0 # map 0..1 domain to hue range 0.33..0
 	suspicion_stylebox.bg_color.h = new_hue
-	print("old_hue: %f new_hue: %f" % [old_hue, new_hue])
 
 
+# the messages are shown at the bottom of the screen
 func add_message(richtext):
 	messages.append(richtext)
 	_update_area_property("messages_text", "text", "\n".join(messages)) #.map(func (message): return "- " + message)))

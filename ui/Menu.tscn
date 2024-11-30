@@ -36,18 +36,19 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.151276, 0.151276, 0.151276, 1)
 
-[node name="MainMenu" type="ColorRect" parent="."]
+[node name="MainMenu_Rect" type="ColorRect" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.25
-anchor_top = 0.25
+anchor_top = 0.2
 anchor_right = 0.75
-anchor_bottom = 0.75
+anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu_Rect"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -55,46 +56,53 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Logo_TextureRect" type="TextureRect" parent="MainMenu/VBoxContainer"]
+[node name="Logo_TextureRect" type="TextureRect" parent="MainMenu_Rect/VBoxContainer"]
 unique_name_in_owner = true
 clip_contents = true
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(0, 220)
 layout_mode = 2
 texture = ExtResource("2_qfmt7")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Won_Label" type="Label" parent="MainMenu/VBoxContainer"]
+[node name="Won_Label" type="Label" parent="MainMenu_Rect/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "You beat the game! Well done."
 label_settings = SubResource("LabelSettings_u0kpv")
 horizontal_alignment = 1
 
-[node name="Lost_Label" type="Label" parent="MainMenu/VBoxContainer"]
+[node name="Lost_Label" type="Label" parent="MainMenu_Rect/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "You were arrested for espionage."
 label_settings = SubResource("LabelSettings_bmev2")
 horizontal_alignment = 1
 
-[node name="Start_Button" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Start_Button" type="Button" parent="MainMenu_Rect/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Start"
 
-[node name="Controls_Button" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Controls_Button" type="Button" parent="MainMenu_Rect/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Controls"
 
-[node name="Settings_Button" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Settings_Button" type="Button" parent="MainMenu_Rect/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Settings"
 
-[node name="Quit_Button" type="Button" parent="MainMenu/VBoxContainer"]
+[node name="Credits_Button" type="Button" parent="MainMenu_Rect/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Credits"
+
+[node name="Quit_Button" type="Button" parent="MainMenu_Rect/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
@@ -106,9 +114,9 @@ visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.25
-anchor_top = 0.25
+anchor_top = 0.2
 anchor_right = 0.75
-anchor_bottom = 0.75
+anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
@@ -130,10 +138,12 @@ horizontal_alignment = 1
 [node name="RichTextLabel" type="RichTextLabel" parent="Controls_Rect/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 24
-text = "Movement: WASD
-Look: Mouse
-Interact: Space
-Menu: Esc"
+bbcode_enabled = true
+text = "[center]
+[b]Movement:[/b] WASD
+[b]Look:[/b] Mouse
+[b]Interact:[/b] Space
+[b]Menu:[/b] Esc"
 fit_content = true
 
 [node name="HSeparator" type="HSeparator" parent="Controls_Rect/VBoxContainer"]
@@ -152,9 +162,9 @@ visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.25
-anchor_top = 0.25
+anchor_top = 0.2
 anchor_right = 0.75
-anchor_bottom = 0.75
+anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
@@ -215,11 +225,67 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Back"
 
-[connection signal="pressed" from="MainMenu/VBoxContainer/Start_Button" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/Controls_Button" to="." method="_on_controls_button_pressed"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/Settings_Button" to="." method="_on_settings_button_pressed"]
-[connection signal="pressed" from="MainMenu/VBoxContainer/Quit_Button" to="." method="_on_quit_button_pressed"]
+[node name="MarginContainer" type="MarginContainer" parent="Settings_Rect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Credits_Rect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.2
+anchor_right = 0.75
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Credits_Rect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Credits_Rect/VBoxContainer"]
+layout_mode = 2
+text = "Credits"
+label_settings = SubResource("LabelSettings_tv2g3")
+horizontal_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Credits_Rect/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[center]
+[b]Concept & programming[/b]
+Martin Nicholson
+
+[b]Music[/b]
+Clement Panchout
+
+---
+[font_size=14]
+Made in November 2024
+for Github Game-Off Jam"
+fit_content = true
+
+[node name="Back_Button3" type="Button" parent="Credits_Rect/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Back"
+
+[connection signal="pressed" from="MainMenu_Rect/VBoxContainer/Start_Button" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MainMenu_Rect/VBoxContainer/Controls_Button" to="." method="_on_controls_button_pressed"]
+[connection signal="pressed" from="MainMenu_Rect/VBoxContainer/Settings_Button" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="MainMenu_Rect/VBoxContainer/Credits_Button" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="MainMenu_Rect/VBoxContainer/Quit_Button" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Controls_Rect/VBoxContainer/Back_Button" to="." method="_on_back_button_pressed"]
 [connection signal="value_changed" from="Settings_Rect/VBoxContainer/HBoxContainer/Music_HSlider" to="." method="_on_music_h_slider_value_changed"]
 [connection signal="value_changed" from="Settings_Rect/VBoxContainer/HBoxContainer2/SFX_HSlider" to="." method="_on_sfx_h_slider_value_changed"]
 [connection signal="pressed" from="Settings_Rect/VBoxContainer/Back_Button2" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="Credits_Rect/VBoxContainer/Back_Button3" to="." method="_on_back_button_pressed"]
