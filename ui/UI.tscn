@@ -88,7 +88,11 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 28
 bbcode_enabled = true
-text = "o"
+text = "L5: [font=assets/fonts/NotoColorEmoji-Regular.ttf]🟪[/font]
+L4: [font=assets/fonts/NotoColorEmoji-Regular.ttf]🟦[/font]
+L3: [font=assets/fonts/NotoColorEmoji-Regular.ttf]🟩[/font]
+L2: [font=assets/fonts/NotoColorEmoji-Regular.ttf]🟨[/font]
+L1: [font=assets/fonts/NotoColorEmoji-Regular.ttf]🟧[/font]"
 
 [node name="GoalsHUD" type="ColorRect" parent="."]
 layout_mode = 1

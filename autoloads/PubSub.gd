@@ -20,6 +20,7 @@ signal close_secrets # emitted by UI node
 signal goals_change # emitted by level node
 signal story_feed # emitted by level, for UI
 signal add_npc_secret # received by all NPCs
+signal quit # received by main
 # named after emitter
 signal player_ready # emitted by player when ready
 signal player_secrets_receive  # emitted by player

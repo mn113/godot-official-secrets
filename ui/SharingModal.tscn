@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtax8cahavgoe"]
+[gd_scene load_steps=6 format=3 uid="uid://dtax8cahavgoe"]
 
 [ext_resource type="Script" path="res://ui/sharing_modal.gd" id="1_cwttg"]
 [ext_resource type="Theme" uid="uid://ctrmdggw11vqh" path="res://responsive_theme.tres" id="2_ws378"]
+[ext_resource type="Texture2D" uid="uid://dppvkmrjohttm" path="res://assets/sprites/grades/L1.png" id="3_kvd13"]
+[ext_resource type="Texture2D" uid="uid://8bb5lbr3ss58" path="res://assets/sprites/spcm/sprite10.png" id="3_v4k8u"]
+[ext_resource type="Texture2D" uid="uid://djwwmwaa07ra" path="res://assets/sprites/grades/L2.png" id="5_ywxu4"]
 
 [node name="SharingModal" type="Control"]
 layout_mode = 3
@@ -75,6 +78,7 @@ offset_bottom = 384.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+texture = ExtResource("3_v4k8u")
 stretch_mode = 4
 
 [node name="GreetingSubLabel" type="Label" parent="Box/VBoxContainer/HBoxContainer/NPC_PanelContainer/VBoxContainer"]
@@ -88,10 +92,11 @@ layout_mode = 2
 size_flags_vertical = 3
 allow_reselect = true
 allow_search = false
-item_count = 2
+item_count = 1
 same_column_width = true
+fixed_icon_size = Vector2i(16, 16)
 item_0/text = "Test test tes stes testes testes"
-item_1/text = "Opt topt o otpo otpop top opt"
+item_0/icon = ExtResource("3_kvd13")
 
 [node name="Player_PanelContainer" type="PanelContainer" parent="Box/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -111,16 +116,17 @@ layout_mode = 2
 size_flags_vertical = 3
 allow_reselect = true
 allow_search = false
-item_count = 3
+item_count = 1
 same_column_width = true
+fixed_icon_size = Vector2i(16, 16)
 item_0/text = "Test test tes stes testes testes"
-item_1/text = "Opt topt o otpo otpop top opt"
-item_2/text = "Yada yada yada"
+item_0/icon = ExtResource("5_ywxu4")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2"]
 layout_mode = 2
 
 [node name="Cancel_Button" type="Button" parent="Box/VBoxContainer/HBoxContainer/Player_PanelContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"

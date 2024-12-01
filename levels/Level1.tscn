@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ca1ev3cpn1xvb" path="res://levels/Outbox.tscn" id="5_htlhx"]
 [ext_resource type="Texture2D" uid="uid://buferaurcha0o" path="res://assets/materials_textures/Tile/Tile_19-128x128.png" id="6_7h0po"]
 [ext_resource type="Material" uid="uid://bvcqqdj8bnwhq" path="res://assets/3d_models/sci-fi-like Asset/materials/TilesMaterials/PanelFloor_Mat.tres" id="8_anyau"]
+[ext_resource type="Texture2D" uid="uid://bl5kokyyqj7rq" path="res://assets/materials_textures/kenney_prototypetextures/PNG/Dark/texture_06.png" id="8_gtodk"]
 [ext_resource type="Material" uid="uid://djvvict3u7qy5" path="res://assets/3d_models/sci-fi-like Asset/materials/TilesMaterials/MT_Wall_mat.tres" id="9_uwikn"]
 [ext_resource type="PackedScene" uid="uid://dmcy4ip8e6el7" path="res://assets/3d_models/office_pack/gLTF/office_chair.glb" id="11_aqhg5"]
 [ext_resource type="PackedScene" uid="uid://cwh5l371x335d" path="res://assets/3d_models/office_pack/gLTF/monitor.glb" id="13_ijlnp"]
@@ -95,7 +96,7 @@ size = Vector3(5, 0.1, 10)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hk2ru"]
 transparency = 1
 blend_mode = 1
-albedo_color = Color(1, 1, 1, 0)
+albedo_color = Color(1, 1, 1, 0.25098)
 refraction_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_2r65j"]
@@ -138,11 +139,8 @@ size = Vector3(5, 2, 24)
 [sub_resource type="BoxShape3D" id="BoxShape3D_8b2fk"]
 size = Vector3(5, 2, 60)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_w1oou"]
-load_path = "res://.godot/imported/texture_01.png-3a19f256a462237852f6fb5c96e12fe0.s3tc.ctex"
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fcbum"]
-albedo_texture = SubResource("CompressedTexture2D_w1oou")
+albedo_texture = ExtResource("8_gtodk")
 uv1_scale = Vector3(20, 20, 20)
 
 [sub_resource type="BoxMesh" id="BoxMesh_21x13"]
@@ -257,6 +255,9 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.2
 
 [node name="Panel_Light_W" parent="Lights" instance=ExtResource("3_eluqt")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.2, 16)
+instance_shader_parameters/albedo = null
+instance_shader_parameters/emission = null
+instance_shader_parameters/emission_energy = null
 
 [node name="Panel_Light_E" parent="Lights" instance=ExtResource("3_eluqt")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.2, -16)

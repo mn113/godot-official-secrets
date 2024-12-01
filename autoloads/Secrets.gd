@@ -7,6 +7,14 @@ const SECRET_THRESHOLDS := [0.5, 0.7, 0.85, 0.95, 1] # 50% chance of being L1, 7
 const SECRET_AMOUNTS := [12, 11, 10, 9, 8] # 50 total (initial)
 const SECRET_COLORS := ["orange", "yellow", "lime", "dodgerblue", "purple"]
 const SECRET_ICONS := ["🟧", "🟨", "🟩", "🟦", "🟪"]
+const SECRET_ICON_IMAGES := [
+	preload("res://assets/sprites/grades/L1.png"),
+	preload("res://assets/sprites/grades/L2.png"),
+	preload("res://assets/sprites/grades/L3.png"),
+	preload("res://assets/sprites/grades/L4.png"),
+	preload("res://assets/sprites/grades/L5.png")
+]
+
 const SECRET_TEXTS := [
 	"The snail has landed.",
 	"A thousand flowers bloom.",
@@ -125,6 +133,7 @@ func reset():
 
 func _init():
 	reset()
+	PubSub.add_npc_secret.connect(_add_npc_secret)
 
 
 func _generate_secrets():
@@ -139,6 +148,7 @@ func _generate_secrets():
 		for _i in range(amt):
 			tmp_secrets.append(Secret.new(tmp_secret_texts.pop_front(), grade))
 
+	tmp_secrets.shuffle()
 	return tmp_secrets
 
 
@@ -177,3 +187,9 @@ func colourise(grade, text) -> String:
 # sorts a list of secrets high to low
 func sort_by_grade(a, b):
 	return a.grade > b.grade
+
+
+func _add_npc_secret(grade):
+	var npcs = get_tree().get_nodes_in_group("npcs")
+	var secret = get_secret(grade)
+	npcs.pick_random().add_secret(secret)

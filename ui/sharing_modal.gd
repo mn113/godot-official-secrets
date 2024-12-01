@@ -30,10 +30,12 @@ func _input(event):
 func _on_size_changed():
 	# make UI font sizes scale with window
 	var percent = get_window().size.y / 100.0
-	self.theme.set_font_size("font_size", "Label", 2 * percent)
-	self.theme.set_font_size("font_size", "Button", 2 * percent)
-	self.theme.set_font_size("font_size", "ItemList", 2 * percent)
-	self.theme.set_font_size("normal_font_size", "RichTextLabel", 2 * percent)
+	theme.set_font_size("font_size", "Label", 2 * percent)
+	theme.set_font_size("font_size", "Button", 2 * percent)
+	theme.set_font_size("font_size", "ItemList", 2 * percent)
+	theme.set_font_size("normal_font_size", "RichTextLabel", 2 * percent)
+	areas["sharing_npc_secrets_list"].set_icon_scale(0.16 * percent)
+	areas["sharing_player_secrets_list"].set_icon_scale(0.16 * percent)
 
 
 func _update_area_property(areaName, property, value):
@@ -45,7 +47,6 @@ func open_secrets(player, npc, data, mode = "npc"):
 	local_player_ref = player
 	local_npc_ref = npc
 	show()
-	PubSub.game_state.emit(2) # STATE_INTERACT
 
 	var can_share = true
 	if mode == "npc":
@@ -68,7 +69,6 @@ func close_secrets():
 	close_player_card()
 	PubSub.close_secrets.emit()
 	hide()
-	PubSub.game_state.emit(1) # STATE_PLAYING
 
 
 func open_npc_card(data = {}) -> bool:
@@ -94,12 +94,9 @@ func open_npc_card(data = {}) -> bool:
 		var list_secrets = local_npc_ref.held_secrets
 		list_secrets.sort_custom(Secrets.sort_by_grade)
 		for secret in list_secrets:
-			var list_item = "%s %s %s" % [secret._to_bullet(), secret._to_grade(), secret._to_masked_string()]
-			var icon = null
-			if secret in local_player_ref.held_secrets:
-				list_item = "%s %s %s" % [secret._to_bullet(), secret._to_grade(), secret._to_string()]
-				# icon = secret._to_icon()
-
+			var secret_string = secret._to_string() if secret in local_player_ref.held_secrets else secret._to_masked_string()
+			var list_item = "%s %s" % [secret._to_grade(), secret_string]
+			var icon = Secrets.SECRET_ICON_IMAGES[secret.grade - 1]
 			areas.sharing_npc_secrets_list.add_item(list_item, icon, false)
 
 	return can_share
@@ -118,8 +115,9 @@ func open_player_card(can_share = true, mode = "npc"):
 	list_secrets.sort_custom(Secrets.sort_by_grade)
 
 	for secret in list_secrets:
-		var list_item = "%s %s %s" % [secret._to_bullet(), secret._to_grade(), secret._to_string()]
-		areas.sharing_player_secrets_list.add_item(list_item, null, can_share)
+		var list_item = "%s %s" % [secret._to_grade(), secret._to_string()]
+		var icon = Secrets.SECRET_ICON_IMAGES[secret.grade - 1]
+		areas.sharing_player_secrets_list.add_item(list_item, icon, can_share)
 
 	if mode == "npc":
 		%Share_Button.show()

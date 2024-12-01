@@ -4,7 +4,7 @@ const MIN_SETTINGS_VOLUME = 0
 const MAX_SETTINGS_VOLUME = 5
 
 # slider inputs of 0-5 will be mapped to dB volume values:
-const MUSIC_DB_VOLUMES = [-80, -24, -12, -6, -3, 0]
+const MUSIC_DB_VOLUMES = [-80, -24, -18, -12, -9, -6]
 const SFX_DB_VOLUMES = [-80, -24, -12, -6, -3, 0]
 
 const MUSIC_BASE = "res://assets/sounds/music/"
@@ -117,7 +117,7 @@ func _audio_play_music(key: String):
 
 
 func _audio_play_sfx(key: String):
-	print("will play sfx %s" % key)
+	# print("play sfx %s" % key)
 	# polyphonic node
 	sfx_array[0].stream = _load_sfx(key)
 	sfx_array[0].play()

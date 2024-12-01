@@ -12,9 +12,9 @@ func _ready():
 func _on_size_changed():
 	# make UI font sizes scale with window
 	var percent = get_window().size.y / 100.0
-	self.theme.set_font_size("font_size", "Label", 2 * percent)
-	self.theme.set_font_size("font_size", "Button", 2 * percent)
-	%Logo_TextureRect.custom_minimum_size = Vector2(0, 20 * percent)
+	theme.set_font_size("font_size", "Label", 2 * percent)
+	theme.set_font_size("font_size", "Button", 2 * percent)
+	%Logo_TextureRect.custom_minimum_size.y = 25 * percent
 
 
 func set_initial_state():
@@ -78,7 +78,7 @@ func _on_back_button_pressed():
 
 
 func _on_quit_button_pressed():
-	get_tree().quit()
+	PubSub.quit.emit()
 
 
 func _on_music_h_slider_value_changed(value:float):

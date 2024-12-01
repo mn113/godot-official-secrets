@@ -63,15 +63,6 @@ func _ready():
 		initial_secrets.append(Secrets.get_secret(max_grade, max_grade))
 	held_secrets = initial_secrets.duplicate()
 
-	# event for later
-	PubSub.add_npc_secret.connect(func (grade):
-		if len(held_secrets) < 4 and randf() > 0.5:
-			var secret = Secrets.get_secret(grade)
-			if secret: # can be null if nothing left
-				held_secrets.append(secret)
-				print("L%s secret assigned to %s" % [grade, character_name])
-	)
-
 
 func _pick_heading():
 	heading = Vector3(randf() - 0.5, 0, randf() - 0.5)
@@ -80,7 +71,7 @@ func _pick_heading():
 
 func _process(delta):
 	var player = get_tree().get_nodes_in_group("player")[0]
-	$NameLabel.visible = self.position.distance_to(player.position) < SHOW_NAME_DISTANCE
+	$NameLabel.visible = position.distance_to(player.position) < SHOW_NAME_DISTANCE
 	$NameLabel.modulate = get_max_secret_colour() if is_player_adjacent else Color.WHITE
 	if interact_cooldown_countdown > 0:
 		interact_cooldown_countdown -= delta
@@ -169,6 +160,11 @@ func give_secret(secret):
 		held_secrets.append(secret)
 		secret.share()
 		_update_held_secrets()
+
+
+func add_secret(secret):
+	held_secrets.append(secret)
+	print("L%s secret assigned to %s" % [secret.grade, character_name])
 
 
 func get_shareable_secrets(exclude = []):

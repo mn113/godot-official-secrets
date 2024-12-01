@@ -40,13 +40,13 @@ var level_scn
 # const STATE_UNFOCUSED = 0 # MOUSE_MODE_VISIBLE
 const STATE_MENU = 0 # MOUSE_MODE_CONFINED
 const STATE_PLAYING = 1 # MOUSE_MODE_CAPTURED
-const STATE_INTERACT = 2 # MOUSE_MODE_CONFINED
+const STATE_INTERACTING = 2 # MOUSE_MODE_CONFINED
 const STATE_PAUSED = 3 # MOUSE_MODE_CONFINED
 const STATE_ENDED = 4 # MOUSE_MODE_CONFINED
 const STATES = [0, 1, 2, 3, 4]
 
-var old_game_state = STATE_PLAYING
-var game_state = STATE_MENU
+var old_game_state
+var game_state
 
 
 func _set_game_state(new_state):
@@ -55,60 +55,54 @@ func _set_game_state(new_state):
 
 	if new_state in STATES:
 		game_state = new_state
-	# if new_state == STATE_MENU:
-	# 	pause()
-	# elif new_state == STATE_PLAYING:
-	# 	pass
-	# elif new_state == STATE_INTERACT:
-	# 	pass
-	# elif new_state == STATE_PAUSED:
-	# 	pause()
+
+		if new_state == STATE_MENU:
+			_show_pointer()
+		elif new_state == STATE_PLAYING:
+			get_tree().paused = false
+			_hide_pointer()
+		elif new_state == STATE_INTERACTING:
+			# soft pause - only shared_modal should be interactable
+			get_tree().paused = true
+			_show_pointer()
+			pass
+		elif new_state == STATE_PAUSED:
+			_show_pointer()
+		elif new_state == STATE_ENDED:
+			_show_pointer()
 
 
 func _show_and_free_pointer():
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	print("MOUSE_MODE_VISIBLE")
+	if Input.mouse_mode != Input.MOUSE_MODE_VISIBLE:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		print("MOUSE_MODE_VISIBLE")
 
 
 func _show_pointer():
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED
-	print("MOUSE_MODE_CONFINED")
+	if Input.mouse_mode not in [Input.MOUSE_MODE_VISIBLE, Input.MOUSE_MODE_CONFINED]:
+		# HTML5 does not support MOUSE_MODE_CONFINED
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if OS.get_name() == 'Web' else Input.MOUSE_MODE_CONFINED
+		print("MOUSE_MODE_VISIBLE" if OS.get_name() == 'Web' else "MOUSE_MODE_CONFINED")
 
 
 func _hide_pointer():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	print("MOUSE_MODE_CAPTURED")
+	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		print("MOUSE_MODE_CAPTURED")
 
 
 func _init():
 	_show_pointer()
 
 
-func _input(event):
-	# keep mouse pointer within the game (but invisible) until Esc is pressed
-	if event.is_action_pressed("ui_cancel"):
-		if game_state in [STATE_MENU, STATE_PAUSED, STATE_ENDED]:
-			# can get out of game window by Escape
-			_show_and_free_pointer() # out of game
-		elif game_state == STATE_PLAYING:
-			# can pause action by Escape
-			pause()
-			_show_pointer()
-
-	elif event is InputEventMouseButton and event.pressed:
-		if game_state == STATE_PLAYING:
-			# go into mouse-look mode
-			_hide_pointer()
-		else:
-			# for using menus
-			_show_pointer()
+func _on_enter_button_pressed():
+	$EntryView.hide()
+	_load_menu()
+	_load_audio()
+	_set_game_state(STATE_MENU)
 
 
 func _ready():
-	print("main.gd ready")
-	_load_menu()
-	_load_audio()
-
 	PubSub.game_begin.connect(func ():
 		print("game_begin", game_state)
 		if game_state == STATE_PAUSED:
@@ -122,9 +116,37 @@ func _ready():
 	PubSub.game_lose.connect(lose_game)
 	PubSub.game_state.connect(func (key):
 		# only accept external events in active gameplay states
-		if game_state in [STATE_PLAYING, STATE_INTERACT]:
+		if game_state in [STATE_PLAYING, STATE_INTERACTING]:
 			_set_game_state(key)
 	)
+	PubSub.quit.connect(func ():
+		_unload_all_entities()
+		menu_scn.hide()
+		get_tree().quit()
+	)
+
+
+func _input(event):
+	if game_state not in STATES:
+		return
+
+	# keep mouse pointer within the game (but invisible) until Esc is pressed
+	# as a best practice, all MOUSE_MODE changes should happen within _input()
+	if event.is_action_pressed("ui_cancel"):
+		if game_state in [STATE_MENU, STATE_PAUSED, STATE_ENDED]:
+			# can get out of game window by Escape
+			_show_and_free_pointer()
+		elif game_state in [STATE_PLAYING, STATE_INTERACTING]:
+			# can pause game by Escape
+			pause()
+		get_viewport().set_input_as_handled()
+
+	elif event is InputEventMouseButton:
+		print("InputEventMouseButton", [event.button_index, MOUSE_BUTTON_LEFT, event.pressed])
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			if game_state == STATE_PLAYING:
+				# go into mouse-look mode
+				_hide_pointer()
 
 
 func _load_audio():
@@ -186,14 +208,15 @@ func _load_npcs(number):
 
 
 func _unload_all_entities():
-	player_scn.queue_free()
-	player_scn = null
-	level_scn.queue_free()
-	level_scn = null
+	if player_scn:
+		player_scn.queue_free()
+		player_scn = null
+	if level_scn:
+		level_scn.queue_free()
+		level_scn = null
 	Secrets.reset()
 	NpcTextures.reset()
 	print("unloaded & reset all entities")
-	print("game state %s" % game_state)
 
 
 func start():
@@ -227,8 +250,8 @@ func resume():
 	level_scn.show()
 	player_scn.show()
 	ui_scn.show()
-	_set_game_state(old_game_state) # STATE_PLAYING or STATE_INTERACT
-	_hide_pointer()
+	_set_game_state(STATE_PLAYING)
+	# _hide_pointer()
 
 
 func win_game():

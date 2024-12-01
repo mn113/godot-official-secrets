@@ -35,10 +35,11 @@ gdscript/warnings/unused_signal=0
 
 window/size/viewport_width=1200
 window/size/viewport_height=800
+window/size/mode=2
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ninetailsrabbit.room_creator/plugin.cfg")
+enabled=PackedStringArray()
 
 [filesystem]
 

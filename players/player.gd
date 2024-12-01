@@ -155,9 +155,17 @@ func achieve(key):
 		PubSub.player_achievement.emit(key)
 		print("achievement", key)
 	# ensure later stages are not too secret-barren:
+	if key == "l2_exfil":
+		PubSub.add_npc_secret.emit(3)
+		PubSub.add_npc_secret.emit(3)
+		PubSub.add_npc_secret.emit(3)
 	if key == "l3_exfil":
 		PubSub.add_npc_secret.emit(4)
+		PubSub.add_npc_secret.emit(4)
+		PubSub.add_npc_secret.emit(4)
 	if key == "l4_exfil":
+		PubSub.add_npc_secret.emit(5)
+		PubSub.add_npc_secret.emit(5)
 		PubSub.add_npc_secret.emit(5)
 
 

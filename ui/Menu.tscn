@@ -46,6 +46,7 @@ anchor_right = 0.75
 anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_io5r7")
 color = Color(0, 0, 0, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMenu_Rect"]
@@ -84,7 +85,8 @@ horizontal_alignment = 1
 [node name="Start_Button" type="Button" parent="MainMenu_Rect/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
+theme = ExtResource("1_io5r7")
+theme_override_font_sizes/font_size = 32
 text = "Start"
 
 [node name="Controls_Button" type="Button" parent="MainMenu_Rect/VBoxContainer"]

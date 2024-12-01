@@ -46,7 +46,7 @@ func _ready():
 	PubSub.open_secrets.connect(open_secrets)
 	PubSub.close_secrets.connect(close_secrets)
 	PubSub.player_secrets_receive.connect(func (secret):
-		add_message("Received L%s secret: \"%s\"." % [secret.grade, secret._to_string_rich()])
+		add_message("> Received L%s secret: \"%s\"." % [secret.grade, secret._to_string_rich()])
 	)
 	PubSub.player_secrets_change.connect(_update_hud_player_secrets)
 	PubSub.player_suspicion_change.connect(_update_hud_player_suspicion)
@@ -61,22 +61,22 @@ func _ready():
 func _on_size_changed():
 	# make UI font sizes scale with window
 	var percent = get_window().size.y / 100.0
-	self.theme.set_font_size("font_size", "Label", 2 * percent)
-	self.theme.set_font_size("font_size", "Button", 2 * percent)
-	self.theme.set_font_size("normal_font_size", "RichTextLabel", 2 * percent)
+	theme.set_font_size("font_size", "Label", 2 * percent)
+	theme.set_font_size("font_size", "Button", 2 * percent)
+	theme.set_font_size("normal_font_size", "RichTextLabel", 2 * percent)
 
 
 # signalled from NPC
 func open_secrets(npc, data, mode = "npc"):
-	get_tree().paused = true
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED
+	PubSub.game_state.emit(2) # STATE_INTERACTING
+	# get_tree().paused = true
 	areas.sharing.open_secrets(local_player_ref, npc, data, mode)
 
 
 # signalled from SharingModal
 func close_secrets():
-	get_tree().paused = false
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	PubSub.game_state.emit(1) # STATE_PLAYING
+	# get_tree().paused = false
 
 
 func _toggle_area(areaName, value):
@@ -99,12 +99,13 @@ func _update_hud_player_secrets():
 	for grade in grades:
 		var grade_secrets = local_player_ref.held_secrets.filter(func (secret): return secret.grade == grade)
 		var bullets_text = "".join(grade_secrets.map(func (secret): return secret._to_bullet()))
-		secrets_text += Secrets.colourise(grade, "L%d: %s\n" % [grade, bullets_text if len(bullets_text) else "-"])
+		var bullets_styled_text = "[font=assets/fonts/NotoColorEmoji-Regular.ttf]%s[/font]" % bullets_text if len(bullets_text) else "-"
+		secrets_text += Secrets.colourise(grade, "L%d: %s\n" % [grade, bullets_styled_text])
 	_update_area_property("secrets_rich_text", "text", secrets_text)
 
 
 func _update_hud_player_suspicion(suspicion):
-	#add_message("suspicion: %s" % suspicion)
+	#add_message("suspicion: %s" % suspicion) # debug only
 
 	# alter suspicion bar width
 	_update_area_property("suspicion_level", "value", suspicion * 100)
